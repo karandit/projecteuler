@@ -6,7 +6,11 @@ public class ProjectEuler027 {
 	
 	public static void main(String[] args) {
 		long start = System.nanoTime();
-		
+		System.out.println(solve_027());
+		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
+	}
+
+	public static int solve_027() {
 		int max_nr_primes = 0;
 		int a_b = 0;
 		for (int a = -999; a < 1000; a++) {
@@ -18,8 +22,7 @@ public class ProjectEuler027 {
 				}
 			}
 		}
-		System.out.println(a_b);
-		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
+		return a_b;
 	}
 
 	private static int formula(int a, int b) {

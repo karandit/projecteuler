@@ -8,7 +8,11 @@ public class ProjectEuler046 {
 	
 	public static void main(String[] args) {
 		long start = System.nanoTime();
+		System.out.println(solve_046());
+		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
+	}
 
+	public static int solve_046() {
 		LinkedList<Integer> primes = new LinkedList<Integer>();
 		primes.add(1);
 		int n = 3;
@@ -20,9 +24,7 @@ public class ProjectEuler046 {
 			}
 			n += 2;
 		}
-
-		System.out.println(n);
-		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
+		return n;
 	}
 
 	private static boolean isPrime(int n) {

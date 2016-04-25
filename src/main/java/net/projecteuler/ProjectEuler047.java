@@ -9,7 +9,11 @@ public class ProjectEuler047 {
 	
 	public static void main(String[] args) {
 		long start = System.nanoTime();
-		
+		System.out.println(solve_047());
+		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
+	}
+
+	public static int solve_047() {
 		Set<Integer> lastFactors = new HashSet<>();
 		int lastFactorsSize = 0;
 		int found_length = 0;
@@ -29,9 +33,7 @@ public class ProjectEuler047 {
 			lastFactorsSize = lastFactors.size();
 			n++;
 		}
-
-		System.out.println(first_n);
-		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
+		return first_n;
 	}
 
 }

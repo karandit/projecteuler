@@ -26,7 +26,11 @@ public class ProjectEuler069 {
 	
 	public static void main(String[] args) {
 		long start = System.nanoTime();
+		System.out.println(solve_069());
+		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
+	}
 
+	public static int solve_069() {
 		double max_n_phin_n = 0;
 		int max_n = 2;
 		for (int n = 2; n <= 1_000_000; n++) {
@@ -36,8 +40,7 @@ public class ProjectEuler069 {
 				max_n = n;
 			}
 		}
-		System.out.println(max_n);
-		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
+		return max_n;
 	}
 
 	private static int totient(int n) {

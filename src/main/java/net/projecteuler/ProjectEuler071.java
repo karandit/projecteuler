@@ -6,11 +6,11 @@ public class ProjectEuler071 {
 
 	public static void main(String[] args) {
 		long start = System.nanoTime();
-		solve();
+		System.out.println(solve_071());
 		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
 	}
 
-	public static int solve() {
+	public static int solve_071() {
 		double three_seventh = ((double) 3) / 7;
 		double maxFraction = 0;
 		int nominator = 3;
@@ -47,7 +47,7 @@ public class ProjectEuler071 {
 			}
 //			println();
 		}
-		System.out.println("n: " + nominator + " d: " + denominator + " " + three_seventh);
+		print("n: " + nominator + " d: " + denominator + " " + three_seventh);
 		return nominator;
 	}
 	

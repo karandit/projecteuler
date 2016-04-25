@@ -9,7 +9,11 @@ public class ProjectEuler023 {
 
 	public static void main(String[] args) {
 		long start = System.nanoTime();
-		
+		System.out.println(solve_023());
+		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
+	}
+
+	public static long solve_023() {
 		List<Integer> abundants = new LinkedList<>();
 		int n = 1;
 		while (n <= LIMIT) {
@@ -32,8 +36,6 @@ public class ProjectEuler023 {
 		for (int i = 0; i < numbers.length; i++) {
 			if (!numbers[i]) sum += i;
 		}
-		
-		System.out.println(sum);
-		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
+		return sum;
 	}
 }

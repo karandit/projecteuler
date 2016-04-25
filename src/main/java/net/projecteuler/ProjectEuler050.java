@@ -7,7 +7,11 @@ public class ProjectEuler050 {
 	
 	public static void main(String[] args) {
 		long start = System.nanoTime();
-		
+		System.out.println("Found: " + solve_050());
+		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
+	}
+
+	public static int solve_050() {
 		int UPPER = 1000_000;
 		List<Integer> primeList = new LinkedList<>();
 		for (int i = 0; i < UPPER; i++) {
@@ -35,7 +39,6 @@ public class ProjectEuler050 {
 				}
 			}
 		}
-		System.out.println("Found: " + found + " max_lenght: " + max_length);
-		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
+		return found;
 	}
 }

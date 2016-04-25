@@ -7,7 +7,11 @@ public class ProjectEuler070 {
 	
 	public static void main(String[] args) {
 		long start = System.nanoTime();
+		System.out.println(solve_070());
+		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
+	}
 
+	public static int solve_070() {
 		double min_n_phin_n = 10_000_000;
 		int min_n = 2;
 		for (int n = 9_999_999; n > 1; n--) {
@@ -18,8 +22,7 @@ public class ProjectEuler070 {
 				min_n = n;
 			}
 		}
-		System.out.println(min_n);
-		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
+		return min_n;
 	}
 
 	private static int[] digits(int n) {

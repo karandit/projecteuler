@@ -3,12 +3,16 @@ package net.projecteuler;
 public class ProjectEuler040 {
 	
 	public static void main(String[] args) {
+		System.out.println(solve_040());
+	}
+
+	public static long solve_040() {
 		long prod = 1;
 		int[] ns = new int[] {1, 10, 100, 1_000, 10_000, 100_000};
 		for (int i = 0; i < ns.length; i++) {
 			prod *= nthDigit(ns[i]);
 		}
-		System.out.println(prod);
+		return prod;
 	}
 
 	private static int nthDigit(int n) {

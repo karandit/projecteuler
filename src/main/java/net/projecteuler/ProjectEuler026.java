@@ -3,6 +3,10 @@ package net.projecteuler;
 public class ProjectEuler026 {
 
 	public static void main(String[] args) {
+		System.out.println(solve_026());
+	}
+
+	public static int solve_026() {
 		int dMax = 2;
 		int lengthMax = 0;
 		for (int d = 2; d < 1000; d++) {
@@ -12,7 +16,7 @@ public class ProjectEuler026 {
 				dMax = d;
 			}
 		}
-		System.out.println(dMax);
+		return dMax;
 	}
 
 	private static int recurringCycle(int d) {
