@@ -15,4 +15,11 @@ public class Util {
 		return 1 + (int) Math.log10(n);
 	}
 	
+	static double factorial(final int n) {
+		if (n == 0) return 1;
+		double res = 1;
+		long x = n;
+		while (x > 0) { res *= x--; }
+		return res;
+	}
 }
