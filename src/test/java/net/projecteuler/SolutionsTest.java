@@ -38,8 +38,10 @@ public class SolutionsTest {
 	@Test public void shouldSolve_071() { assertEquals(428570, solve_071()); }
 	@Test public void shouldSolve_072() { assertEquals(303963552391L, solve_072()); }
 	@Test public void shouldSolve_074() { assertEquals(402, solve_074()); }
+	//TODO 79 is missing, I solved it with paper and pencil
 	@Test public void shouldSolve_092() { assertEquals(8581146, solve_092()); }
 	@Test public void shouldSolve_119() { assertEquals(248155780267521L, solve_119()); }
+	//TODO 156 is missing
 	@Test public void shouldSolve_179() { assertEquals(986262, solve_179()); }
 
 }
