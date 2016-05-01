@@ -11,6 +11,7 @@ import static net.projecteuler.ProjectEuler046.solve_046;
 import static net.projecteuler.ProjectEuler047.solve_047;
 import static net.projecteuler.ProjectEuler050.solve_050;
 import static net.projecteuler.ProjectEuler053.solve_053;
+import static net.projecteuler.ProjectEuler059.solve_059;
 import static net.projecteuler.ProjectEuler069.solve_069;
 import static net.projecteuler.ProjectEuler070.solve_070;
 import static net.projecteuler.ProjectEuler071.solve_071;
@@ -32,6 +33,7 @@ public class SolutionsTest {
 	@Test public void shouldSolve_047() { assertEquals(134043, solve_047()); }
 	@Test public void shouldSolve_050() { assertEquals(997651, solve_050()); }
 	@Test public void shouldSolve_053() { assertEquals(4075, solve_053()); }
+	@Test public void shouldSolve_059() { assertEquals(107359, solve_059()); }
 	//TODO 63 is missing
 	@Test public void shouldSolve_069() { assertEquals(510510, solve_069()); }
 	@Test public void shouldSolve_070() { assertEquals(8319823, solve_070()); }
