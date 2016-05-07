@@ -1,5 +1,7 @@
 package net.projecteuler;
 
+import static net.projecteuler.Primes.totient;
+
 import java.util.Arrays;
 import java.util.Set;
 
@@ -35,14 +37,4 @@ public class ProjectEuler070 {
 		return res;
 	}
 	
-	private static int totient(int n) {
-		double res = n;
-		Set<Integer> factors = Primes.factors(n);
-		for (Integer f : factors) {
-			double factor = f;
-			res *= (factor - 1) / factor;
-		}
-		return (int) res;
-	}
-
 }
