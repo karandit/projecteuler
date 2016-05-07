@@ -1,8 +1,6 @@
 package net.projecteuler;
 
-import static net.projecteuler.Primes.factors;
-
-import java.util.Set;
+import static net.projecteuler.Primes.totient;
 
 public class ProjectEuler069 {
 	
@@ -25,15 +23,4 @@ public class ProjectEuler069 {
 		return max_n;
 	}
 
-	private static int totient(int n) {
-		double res = n;
-		Set<Integer> factors = factors(n);
-		for (Integer f : factors) {
-			double factor = f;
-			res *= (factor - 1) / factor;
-		}
-		return (int) res;
-	}
-	
-	
 }

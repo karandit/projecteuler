@@ -184,5 +184,14 @@ public class Primes {
 		}
 		return true;	
     }
+	public static int totient(int n) {
+		double res = n;
+		Set<Integer> factors = factors(n);
+		for (Integer f : factors) {
+			double factor = f;
+			res *= (factor - 1) / factor;
+		}
+		return (int) res;
+	}
 
 }
