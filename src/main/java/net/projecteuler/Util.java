@@ -11,6 +11,16 @@ public class Util {
 		return sum;
 	}
 	
+	static int[] digits(long n) {
+		int[] digits = new int[countOfDigits(n)];
+		int i = digits.length - 1;
+		while (n != 0) {
+			digits[i--] += n % 10;
+			n = n / 10;
+		}
+		return digits;
+	}
+	
 	static int countOfDigits(long n) {
 		return 1 + (int) Math.log10(n);
 	}
@@ -22,4 +32,16 @@ public class Util {
 		while (x > 0) { res *= x--; }
 		return res;
 	}
+	
+	static boolean[] inBinaryRepr(int number, int digits) {
+		boolean[] bits = new boolean[digits];
+		
+		for (int i = digits - 1; i >= 0; i--) {
+			bits[i] = number % 2 != 0;
+			number /= 2;
+		}
+
+		return bits;
+	}
+
 }
