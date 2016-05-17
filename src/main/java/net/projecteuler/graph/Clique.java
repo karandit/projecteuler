@@ -17,7 +17,7 @@ public class Clique<T extends Comparable<T>> {
 	private final Map<T, Set<T>> level2 = new HashMap<>();
 
 	public List<List<T>> connect(T a, T b) {
-		Set<T> targetsA = getOrDefault(level1, a, new HashSet<>());;
+		Set<T> targetsA = getOrDefault(level1, a, new HashSet<>());
 		targetsA.add(b);
 		
 		if (level1.containsKey(b) && level1.get(b).contains(a)) {
