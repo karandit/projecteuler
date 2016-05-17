@@ -33,6 +33,7 @@ public class ProjectEuler060 {
 				if (!primes[tuple.getA()] || !primes[tuple.getB()]) {
 					continue;
 				}
+				
 				Integer a = tuple.getA();
 				Integer b = tuple.getB();
 					
@@ -41,26 +42,35 @@ public class ProjectEuler060 {
 				if (!level1.containsKey(b) || !level1.get(b).contains(a)) {
 					continue;
 				}
+				
 				Set<Integer> targetsA = getOrDefault(level2, a, new HashSet<>());
 				Set<Integer> targetsB = getOrDefault(level2, b, new HashSet<>());
 				targetsA.add(b);
 				targetsB.add(a);
-						
-				Set<Integer> intersectAB = new HashSet<>(targetsA);
-				intersectAB.retainAll(targetsB);
-				for (Integer c : intersectAB) {
-					if (!level2.containsKey(c)) { continue; }
-					Set<Integer> targetsC = level2.get(c);
+				if (targetsA.size() < 3 || targetsB.size() < 3) {
+					continue;
+				}
 
-					Set<Integer> intersectABC = new HashSet<>(intersectAB);
-					intersectABC.retainAll(targetsC);
-					for (Integer d : intersectABC) {
-						if (!level2.containsKey(d)) { continue; }
-						Set<Integer> targetsD = level2.get(d);
-						
-						Set<Integer> intersectABCD = new HashSet<>(intersectABC);
-						intersectABCD.retainAll(targetsD);
-						for (Integer e : intersectABCD) {
+				Set<Integer> intersect = intersect(new HashSet<>(targetsA), targetsB);
+				if (intersect.size() < 3) {
+					continue;
+				}
+				
+				for (Integer c : new HashSet<>(intersect)) {
+					if (!level2.containsKey(c)) {
+						continue;
+					}
+					intersect = intersect(intersect, level2.get(c));
+					if (intersect.size() < 2) {
+						continue;
+					}
+					
+					for (Integer d : new HashSet<>(intersect)) {
+						if (!level2.containsKey(d)) {
+							continue;
+						}
+						intersect = intersect(intersect, level2.get(d));
+						for (Integer e : intersect) {
 							return a + b + c + d + e;
 						}
 					}
@@ -70,6 +80,11 @@ public class ProjectEuler060 {
 		throw new RuntimeException("Solution not found below " + THRESHOLD);
 	}
 
+	private static Set<Integer> intersect(Set<Integer> setA, Set<Integer> setB) {
+		setA.retainAll(setB);
+		return setA;
+	}
+	
 	private static List<Tuple<Integer, Integer>> separatedDigits(int n) {
 		List<Tuple<Integer, Integer>> res = new LinkedList<>();
 		int[] digits = digits(n);
