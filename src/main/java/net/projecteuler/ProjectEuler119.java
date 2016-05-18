@@ -1,6 +1,6 @@
 package net.projecteuler;
 
-import static net.projecteuler.Util.sumOfDigits;
+import static net.projecteuler.util.Util.sumOfDigits;
 
 public class ProjectEuler119 {
 

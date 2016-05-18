@@ -1,6 +1,6 @@
 package net.projecteuler;
 
-import static net.projecteuler.Util.factorial;
+import static net.projecteuler.util.Util.factorial;
 
 public class ProjectEuler053 {
 

@@ -2,7 +2,8 @@ package net.projecteuler;
 
 import static java.lang.System.nanoTime;
 import static net.projecteuler.Primes.getPrimes;
-import static net.projecteuler.Util.inBinaryRepr;
+import static net.projecteuler.util.Util.inBinaryRepr;
+import static net.projecteuler.util.Util.digits;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -25,7 +26,7 @@ public class ProjectEuler051 {
 		for (int i = 2; i < primes.length; i++) {
 			if (!primes[i]) { continue; }
 
-			int[] digits = Util.digits(i);
+			int[] digits = digits(i);
 			int[] digitsOccurences = new int[10];
 			for (int digit : digits) { digitsOccurences[digit]++; }
 			

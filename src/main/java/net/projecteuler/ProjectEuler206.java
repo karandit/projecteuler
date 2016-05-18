@@ -1,5 +1,7 @@
 package net.projecteuler;
 
+import static net.projecteuler.util.Util.digits;
+
 /**
  * Heuristics:
  * - the last number of the square is 0, it means the original number ends also with 0.
@@ -23,7 +25,7 @@ public class ProjectEuler206 {
 	public static long solve_206() {
 		int delta = 40;
 		for (long i = LOWER; i <= UPPER; i += delta, delta = delta == 40 ? 60: 40 ) {
-			if (matchPattern(Util.digits(i * i))) {
+			if (matchPattern(digits(i * i))) {
 				return i;
 			}
 		}

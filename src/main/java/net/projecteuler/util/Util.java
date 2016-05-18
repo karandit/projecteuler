@@ -1,8 +1,8 @@
-package net.projecteuler;
+package net.projecteuler.util;
 
 public class Util {
 	
-	static long sumOfDigits(long n) {
+	public static long sumOfDigits(long n) {
 		long sum = 0;
 		while (n != 0) {
 			sum += n % 10;
@@ -11,7 +11,7 @@ public class Util {
 		return sum;
 	}
 	
-	static int[] digits(long n) {
+	public static int[] digits(long n) {
 		int[] digits = new int[countOfDigits(n)];
 		int i = digits.length - 1;
 		while (n != 0) {
@@ -25,7 +25,7 @@ public class Util {
 		return 1 + (int) Math.log10(n);
 	}
 	
-	static double factorial(final int n) {
+	public static double factorial(final int n) {
 		if (n == 0) return 1;
 		double res = 1;
 		long x = n;
@@ -33,7 +33,7 @@ public class Util {
 		return res;
 	}
 	
-	static boolean[] inBinaryRepr(int number, int digits) {
+	public static boolean[] inBinaryRepr(int number, int digits) {
 		boolean[] bits = new boolean[digits];
 		
 		for (int i = digits - 1; i >= 0; i--) {
