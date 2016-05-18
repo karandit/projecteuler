@@ -2,6 +2,7 @@ package net.projecteuler;
 
 import org.junit.Test;
 
+import static net.projecteuler.ProjectEuler001.solve_001;
 import static net.projecteuler.ProjectEuler019.solve_019;
 import static net.projecteuler.ProjectEuler023.solve_023;
 import static net.projecteuler.ProjectEuler026.solve_026;
@@ -27,6 +28,7 @@ import static org.junit.Assert.assertEquals;
 
 public class SolutionsTest {
 
+	@Test public void shouldSolve_001() { assertEquals(233168, solve_001()); }
 	@Test public void shouldSolve_019() { assertEquals(171, solve_019()); }
 	@Test public void shouldSolve_023() { assertEquals(4179871, solve_023()); }
 	@Test public void shouldSolve_026() { assertEquals(983, solve_026()); }
