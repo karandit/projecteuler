@@ -3,6 +3,8 @@ package net.projecteuler;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.projecteuler.util.Primes;
+
 public class ProjectEuler047 {
 	private final static int DESIRED_LENGTH = 4 - 1;
 	private final static int DESIRED_DIFF = 4;

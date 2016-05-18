@@ -1,5 +1,7 @@
 package net.projecteuler;
 
+import net.projecteuler.util.Primes;
+
 public class ProjectEuler179 {
 	
 	public static void main(String[] args) {

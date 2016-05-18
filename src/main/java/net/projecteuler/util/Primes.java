@@ -1,9 +1,11 @@
-package net.projecteuler;
+package net.projecteuler.util;
 
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
+import net.projecteuler.Tuple;
 
 public class Primes {
 	public final static int[] PRIMES = new int[] {

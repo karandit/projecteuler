@@ -1,6 +1,6 @@
 package net.projecteuler;
 
-import static net.projecteuler.Primes.getPrimes;
+import static net.projecteuler.util.Primes.getPrimes;
 import static net.projecteuler.util.Util.digits;
 
 import java.util.HashMap;

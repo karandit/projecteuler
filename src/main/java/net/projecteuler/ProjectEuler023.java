@@ -3,6 +3,8 @@ package net.projecteuler;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.projecteuler.util.Primes;
+
 public class ProjectEuler023 {
 
 	private static final int LIMIT = 28123;

@@ -1,6 +1,6 @@
 package net.projecteuler;
 
-import static net.projecteuler.Primes.isPrime;
+import static net.projecteuler.util.Primes.isPrime;
 
 public class ProjectEuler027 {
 	

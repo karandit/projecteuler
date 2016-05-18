@@ -1,6 +1,6 @@
 package net.projecteuler;
 
-import static net.projecteuler.Primes.totient;
+import static net.projecteuler.util.Primes.totient;
 
 import java.util.Arrays;
 import java.util.Set;
