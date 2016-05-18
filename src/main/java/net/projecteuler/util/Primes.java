@@ -5,8 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import net.projecteuler.Tuple;
-
 public class Primes {
 	public final static int[] PRIMES = new int[] {
 			 2,      3,      5,      7,     11,     13,     17,     19,     23,     29, 

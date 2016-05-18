@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.projecteuler.util.Tuple;
+
 public class ProjectEuler060 {
 
 	private static final int THRESHOLD = 100_000_000;

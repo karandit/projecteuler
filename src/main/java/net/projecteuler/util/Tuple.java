@@ -1,4 +1,4 @@
-package net.projecteuler;
+package net.projecteuler.util;
 
 public class Tuple<A, B> {
 	private final A a;
