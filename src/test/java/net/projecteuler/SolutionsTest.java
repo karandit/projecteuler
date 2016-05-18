@@ -39,6 +39,7 @@ public class SolutionsTest {
 	@Test public void shouldSolve_050() { assertEquals(997651, solve_050()); }
 	@Test public void shouldSolve_051() { assertEquals(121313, solve_051()); }
 	@Test public void shouldSolve_053() { assertEquals(4075, solve_053()); }
+	//TODO 54 is not solved yet
 	@Test public void shouldSolve_059() { assertEquals(107359, solve_059()); }
 	@Test public void shouldSolve_060() { assertEquals(26033, solve_060()); }
 	//TODO 63 is missing
