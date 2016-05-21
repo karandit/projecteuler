@@ -20,6 +20,14 @@ public class Util {
 		}
 		return digits;
 	}
+
+	public static long fromDigits(int[] digits) {
+		long res = 0;
+		for (int i = 0; i < digits.length; i++) {
+			res = res * 10 + digits[i];
+		}
+		return res;
+	}
 	
 	static int countOfDigits(long n) {
 		return 1 + (int) Math.log10(n);
@@ -43,5 +51,11 @@ public class Util {
 
 		return bits;
 	}
+
+	public static boolean isSqrt(long n) {
+		double sqrt = Math.sqrt(n);
+		return (sqrt - Math.floor(sqrt)) == 0.0;
+	}
+
 
 }
