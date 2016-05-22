@@ -3,7 +3,6 @@ package net.projecteuler;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toMap;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +14,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.stream.LongStream;
 
 import net.projecteuler.util.Tuple;
@@ -50,23 +50,36 @@ public class ProjectEuler098 {
 			}
 		});
 
-		Map<String, Long> fingerPrints = generateFingerPrints();
+		Map<String, Long> fingerPrints = generateSquareFingerPrints();
 		
 		return wordPairs.stream()
-		.map((Tuple<String, String> wordPair) -> generateFingerPrint(wordPair.getA(), wordPair.getB()))
-		.filter(fingerPrint -> fingerPrints.containsKey(fingerPrint))
-		.map(fingerPrint -> fingerPrints.get(fingerPrint))
-		.mapToLong(l -> (Long) l).max().getAsLong();
+			.map(wordPair -> generateFingerPrint(wordPair.getA(), wordPair.getB(), ProjectEuler098::genMask))
+			.filter(fingerPrint -> fingerPrints.containsKey(fingerPrint))
+			.map(fingerPrint -> fingerPrints.get(fingerPrint))
+			.mapToLong(l -> (Long) l).max().getAsLong();
 	}
 
-	public static Map<String, Long> generateFingerPrints() {
+	public static Map<String, Long> generateSquareFingerPrints() {
 		Map<String, Long> fingerPrints = new HashMap<>();
-		generateSquares().forEach((k, v) -> {
+		
+		LongStream.rangeClosed(1, UPPER_LIMIT)
+		.map(i -> i * i)
+		.mapToObj(n -> (Long) n)
+		.collect(groupingBy(n -> {
+				int[] digits = Util.digits(n);
+				Arrays.sort(digits);
+				StringBuilder sb = new StringBuilder();
+				Arrays.stream(digits).forEach(x -> sb.append(x));
+				return sb.toString();
+		}))
+		.values().stream()
+		.filter(list -> list.size() > 1)
+		.forEach(v -> {
 				for (int i = 0; i < v.size() - 1; i++) {
 					for (int j = i + 1; j < v.size(); j++) {
 						Long long1 = v.get(i); 
 						Long long2 = v.get(j);
-						String fingerPrint = generateFingerPrintLong(long1, long2);
+						String fingerPrint = generateFingerPrint(long1, long2, ProjectEuler098::genMaskLong);
 						long max = Math.max(long1, long2);
 						if (fingerPrints.containsKey(fingerPrint)) {
 							Long act = fingerPrints.get(fingerPrint);
@@ -80,12 +93,8 @@ public class ProjectEuler098 {
 		return fingerPrints;
 	}
 
-	private static String generateFingerPrint(String s1, String s2) {
-		return asList(genMask(s1, s2), genMask(s2, s1)) .stream() .sorted() .collect(joining());
-	}
-
-	private static String generateFingerPrintLong(Long s1, Long s2) {
-		return asList(genMaskLong(s1, s2), genMaskLong(s2, s1)) .stream() .sorted() .collect(joining());
+	private static<T> String generateFingerPrint(T s1, T s2, BiFunction<T, T, String> f) {
+		return asList(f.apply(s1, s2), f.apply(s2, s1)).stream().sorted().collect(joining());
 	}
 
 	public static String genMask(String s1, String s2) {
@@ -123,22 +132,6 @@ public class ProjectEuler098 {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	public static Map<String, List<Long>> generateSquares() {
-		return LongStream.rangeClosed(1, UPPER_LIMIT)
-		.map(i -> i * i)
-		.mapToObj(n -> (Long) n)
-		.collect(groupingBy(n -> {
-				int[] digits = Util.digits(n);
-				Arrays.sort(digits);
-				StringBuilder sb = new StringBuilder();
-				Arrays.stream(digits).forEach(x -> sb.append(x));
-				return sb.toString();
-		}))
-		.entrySet().stream()
-		.filter(e -> e.getValue().size() > 1)
-		.collect(toMap(e -> e.getKey(), e -> e.getValue()));
 	}
 
 }
