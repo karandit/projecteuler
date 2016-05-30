@@ -28,6 +28,16 @@ public class Util {
 		}
 		return res;
 	}
+
+	public static int[] reverse(int[] inp) {
+		int length = inp.length;
+		int[] res = new int[length];
+		for (int i = 0; i < length; i++) {
+			res[length - i -1] = inp[i];
+		}
+		return res;
+	}
+	
 	
 	static int countOfDigits(long n) {
 		return 1 + (int) Math.log10(n);
