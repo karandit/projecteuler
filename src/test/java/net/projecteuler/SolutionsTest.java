@@ -69,6 +69,7 @@ public class SolutionsTest {
 	@Test public void shouldSolve_098() { assertEquals(18769, solve_098()); }
 	@Test public void shouldSolve_099() { assertEquals(709, solve_099()); }
 	@Test public void shouldSolve_119() { assertEquals(248155780267521L, solve_119()); }
+	//TODO 145 is missing, it is too slow
 	//TODO 156 is missing
 	@Test public void shouldSolve_179() { assertEquals(986262, solve_179()); }
 	@Test public void shouldSolve_206() { assertEquals(1389019170, solve_206()); }
