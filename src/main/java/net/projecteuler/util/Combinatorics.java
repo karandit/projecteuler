@@ -11,9 +11,13 @@ import java.util.stream.Collectors;
 public class Combinatorics {
 	
 	public static List<List<Integer>> permutations(int n) {
-		List<Integer> set = range(0, n).boxed().collect(Collectors.toList());
+		List<Integer> numbers = range(0, n).boxed().collect(Collectors.toList());
+		return permutations(numbers);
+	}
+
+	public static List<List<Integer>> permutations(List<Integer> set) {
 		List<List<Integer>> allSolutions = new LinkedList<>();
-		genVariations(allSolutions, set, emptyList(), n);
+		genVariations(allSolutions, set, emptyList(), set.size());
 		return allSolutions;
 	}
 	
