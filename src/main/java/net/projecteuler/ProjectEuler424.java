@@ -59,9 +59,9 @@ public class ProjectEuler424 {
 		@Override
 		public List<Rule> buildRules(List<Digit> digits) {
 			List<Rule> rules = new LinkedList<>();
-//			if (digits.size() > 1) {
-//				rules.add(new GreaterThanRule(digit, 0)); //TODO: implement it
-//			}
+			if (digits.size() > 1) {
+				rules.add(new BetweenRule(digit, 1, 9)); //it can't be zero
+			}
 			
 			Set<Digit> fixedDigits = digits.stream()
 					.filter(digit -> digit.letter.charAt(0) >= 'A' && digit.letter.charAt(0) <= 'J')
