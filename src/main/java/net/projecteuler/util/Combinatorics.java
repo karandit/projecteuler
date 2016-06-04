@@ -10,6 +10,13 @@ import java.util.stream.Collectors;
 
 public class Combinatorics {
 	
+	public static List<List<Integer>> permutations(int n) {
+		List<Integer> set = range(0, n).boxed().collect(Collectors.toList());
+		List<List<Integer>> allSolutions = new LinkedList<>();
+		genVariations(allSolutions, set, emptyList(), n);
+		return allSolutions;
+	}
+	
 	public static List<List<Integer>> variations(int n, int k) {
 		if (k > n) {
 			throw new IllegalArgumentException("In variations k = " + k + " must be smaller or equal than n = " + n);
