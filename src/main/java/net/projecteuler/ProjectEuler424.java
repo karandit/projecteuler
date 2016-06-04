@@ -94,7 +94,7 @@ public class ProjectEuler424 {
 	
 	public interface Cell {
 		boolean isWhite();
-		List<Rule> buildRule(boolean isHor, int colIdx, Cell[] cells);
+		List<Rule> buildRules(boolean isHor, int colIdx, Cell[] cells);
 	}
 
 	public static class WhiteCell implements Cell {
@@ -102,10 +102,7 @@ public class ProjectEuler424 {
 		public WhiteCell(Digit value) { this.digit = value; }
 		@Override public String toString() { return ".." + digit.toString() + ".."; }
 		@Override public boolean isWhite() { return true; }
-		@Override
-		public List<Rule> buildRule(boolean isHor, int colIdx, Cell[] cells) {
-			return null;
-		}
+		@Override public List<Rule> buildRules(boolean isHor, int colIdx, Cell[] cells) { return null; }
 	}
 	
 	public static class GrayCell implements Cell {
@@ -123,7 +120,7 @@ public class ProjectEuler424 {
 		}
 
 		@Override
-		public List<Rule> buildRule(boolean isHor, int idx, Cell[] cells) {
+		public List<Rule> buildRules(boolean isHor, int idx, Cell[] cells) {
 			Optional<? extends Sum> sum = isHor ? horSum : verSum;
 			if (sum.isPresent()) {
 				List<Digit> digits = new LinkedList<>();
@@ -415,7 +412,7 @@ public class ProjectEuler424 {
 		for (int rowIdx = 0; rowIdx < matrix.length; rowIdx++) {
 			Cell[] row = matrix[rowIdx];
 			for (int colIdx = 0; colIdx < matrix[rowIdx].length; colIdx++) {
-				List<Rule> rules = row[colIdx].buildRule(isHor, colIdx, row);
+				List<Rule> rules = row[colIdx].buildRules(isHor, colIdx, row);
 				if (rules != null) {
 					res.addAll(rules);
 				}
