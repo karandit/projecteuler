@@ -11,7 +11,6 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static net.projecteuler.util.Combinatorics.permutations;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -87,7 +86,7 @@ public class ProjectEuler424 {
 
 		@Override
 		public List<Rule> buildRules(List<Digit> digits) {
-			return asList(new BetweenRule(digit1, digits.size() - 1));
+			return asList(new BetweenRule(digit1, 1, digits.size() - 1));
 		}
 
 		@Override public int value(Map<String, Integer> sol) { return sol.get(digit1.letter) * 10 + sol.get(digit2.letter); }
@@ -215,17 +214,18 @@ public class ProjectEuler424 {
 
 	public static class BetweenRule implements Rule {
 		private final Digit digit;
+		private final int lower;
 		private final int upper;
 		
-		public BetweenRule(Digit digit, int upper) { this.digit = digit; this.upper = upper; }
+		public BetweenRule(Digit digit, int lower, int upper) { this.digit = digit; this.lower = lower; this.upper = upper; }
 		
 		@Override public int getRank() { return 1; }
-		@Override public String toString() { return "Rule Between: 1 <= " + digit + " <= " + upper; }
-		@Override public String toString(Map<String, Integer> sol) { return "Rule Between: 1 <= " + digit.toString(sol) + " <= " + upper; }
+		@Override public String toString() { return "Rule Between: " + lower + " <= " + digit + " <= " + upper; }
+		@Override public String toString(Map<String, Integer> sol) { return "Rule Between: " + lower + " <= " + digit.toString(sol) + " <= " + upper; }
 
-		@Override public List<Tuple<String, Integer>> solve(Map<String, Integer> sol) { return upper == 1 ? asList(new Tuple<>(digit.letter, 1)) : emptyList(); }
+		@Override public List<Tuple<String, Integer>> solve(Map<String, Integer> sol) { return upper == lower ? asList(new Tuple<>(digit.letter, upper)) : emptyList(); }
 		@Override public boolean isStillNeeded(Map<String, Integer> sol) { return !sol.containsKey(digit.letter); }
-		@Override public boolean check(Map<String, Integer> sol) { Integer value = sol.get(digit.letter); return 1 <= value && value <= upper; }
+		@Override public boolean check(Map<String, Integer> sol) { Integer value = sol.get(digit.letter); return lower <= value && value <= upper; }
 	}
 
 	//------------------------ Main ------------------------------------------------------------------------------------
