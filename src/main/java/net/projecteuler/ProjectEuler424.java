@@ -161,7 +161,7 @@ public class ProjectEuler424 {
 			Map<Boolean, List<Digit>> solved = digits.stream().collect(partitioningBy(d -> sol.containsKey(d.letter)));
 			if (solved.get(Boolean.FALSE).size() == 1) {
 				Digit lastUnsolved = solved.get(Boolean.FALSE).iterator().next();
-				int othersSum = solved.get(Boolean.TRUE).stream().map(digit -> sol.get(digit.letter)).reduce(0, (a, b) -> a + b);
+				int othersSum = solved.get(Boolean.TRUE).stream().map(digit -> sol.get(digit.letter)).reduce(0, Integer::sum);
 				return asList(new Tuple<>(lastUnsolved.letter, sum.value(sol) - othersSum));
 			}
 			return emptyList();
@@ -188,11 +188,11 @@ public class ProjectEuler424 {
 			boolean allReplaced = digits.stream().allMatch(d -> sol.containsKey(d.letter));
 			int sumValue = sum.value(sol);
 			if (!allReplaced) {
-				Integer actDigitsValue = replDigits.stream().reduce(0, (a, b) -> a+ b);
+				Integer actDigitsValue = replDigits.stream().reduce(0, Integer::sum);
 				return sumValue >= actDigitsValue;
 			}
 			
-			Integer actDigitsValue = digits.stream().map(digit -> sol.get(digit.letter)).reduce(0, (a, b) -> a+ b);
+			Integer actDigitsValue = digits.stream().map(digit -> sol.get(digit.letter)).reduce(0, Integer::sum);
 			return sumValue == actDigitsValue;
 		}
 
