@@ -12,6 +12,8 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.IntStream.rangeClosed;
 import static net.projecteuler.util.Combinatorics.permutations;
+import static net.projecteuler.util.Matrix.newMatrix;
+import static net.projecteuler.util.Matrix.rotateMatrix;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -385,7 +387,7 @@ public class ProjectEuler424 {
 		String[] tokens = input.split(",");
 		int tokenIdx = 0;
 		int size = Integer.parseInt(tokens[tokenIdx++]);
-		Cell[][] matrix = newMatrix(size);
+		Cell[][] matrix = newMatrix(size, size, rows -> new Cell[rows][], cols -> new Cell[cols]);
 		
 		Map<String, Digit> digits = stream(A_TO_J).collect(toMap(x -> x, x -> new Digit(x)));
 		char lastChar = 'K';
@@ -445,7 +447,7 @@ public class ProjectEuler424 {
 
 	private static List<Rule> buildRules(Cell[][] matrix) {
 		List<Rule> rules = collectRules(matrix, true);
-		rules.addAll(collectRules(rotateMatrix(matrix), false));
+		rules.addAll(collectRules(rotateMatrix(matrix, rows -> new Cell[rows][], cols -> new Cell[cols]), false));
 		rules = rules.stream().sorted((a, b) -> a.getRank() - b.getRank()).collect(toList()); 
 		return rules;
 	}
@@ -461,34 +463,6 @@ public class ProjectEuler424 {
 			}
 		}
 		return res;
-	}
-
-	private static Cell[][] rotateMatrix(Cell[][] matrix) {
-		Cell[][] res = new Cell[matrix.length][];
-		for (int rowIdx = 0; rowIdx < matrix.length; rowIdx++) {
-			res[rowIdx] = new Cell[matrix.length];
-			for (int colIdx = 0; colIdx < matrix.length; colIdx++) {
-				res[rowIdx][colIdx] = matrix[colIdx][rowIdx];
-			}
-		}
-		return res;
-	}
-
-	private static Cell[][] newMatrix(int size) {
-		Cell[][] matrix = new Cell[size][];
-		for (int i = 0; i < matrix.length; i++) {
-			matrix[i] = new Cell[size];
-		}
-		return matrix;
-	}
-
-	public static void printMatrix(Cell[][] matrix) {
-		for (int rowIdx = 0; rowIdx < matrix.length; rowIdx++) {
-			for (int colIdx = 0; colIdx < matrix.length; colIdx++) {
-				System.out.print(matrix[rowIdx][colIdx] + " ");
-			}
-			System.out.println();
-		}
 	}
 
 }
