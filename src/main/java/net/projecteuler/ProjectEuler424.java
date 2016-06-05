@@ -146,7 +146,7 @@ public class ProjectEuler424 {
 		Optional<Tuple<String, List<Integer>>> getCandidates(Map<String, Integer> solution);
 	}
 	
-	public static class SumRule implements Rule { 
+	public static class SumRule implements Rule {
 		private final Sum sum;
 		private List<Digit> digits;
 		
@@ -199,11 +199,14 @@ public class ProjectEuler424 {
 		@Override
 		public Optional<Tuple<String, List<Integer>>> getCandidates(Map<String, Integer> sol) {
 			Map<Boolean, List<Digit>> solved = digits.stream().collect(partitioningBy(d -> sol.containsKey(d.letter)));
-			int othersSum = solved.get(Boolean.TRUE).stream().map(digit -> sol.get(digit.letter)).reduce(0, (a, b) -> a + b);
+			int othersSum = solved.get(Boolean.TRUE).stream().map(digit -> sol.get(digit.letter)).reduce(0, Integer::sum);
 			int sumValue = sum.value(sol) - othersSum;
 			
-			Digit lastUnsolved = solved.get(Boolean.FALSE).iterator().next();
-			return of(new Tuple<>(lastUnsolved.letter, rangeClosed(0, Math.min(9, sumValue)).mapToObj(i -> i).collect(toList())));
+			if (!solved.get(Boolean.FALSE).isEmpty()) {
+				Digit lastUnsolved = solved.get(Boolean.FALSE).iterator().next();
+				return of(new Tuple<>(lastUnsolved.letter, rangeClosed(0, Math.min(9, sumValue)).mapToObj(i -> i).collect(toList())));
+			}
+			return empty();
 		}
 	}
 	
@@ -220,7 +223,14 @@ public class ProjectEuler424 {
 
 		@Override public List<Tuple<String, Integer>> solve(Map<String, Integer> sol) { return emptyList(); }
 		@Override public boolean isStillNeeded(Map<String, Integer> sol) { return !sol.containsKey(small.letter) || !sol.containsKey(big.letter); }
-		@Override public boolean check(Map<String, Integer> sol) { return sol.get(small.letter) <= sol.get(big.letter); }
+
+		@Override
+		public boolean check(Map<String, Integer> sol) {
+			if (sol.containsKey(small.letter) && sol.containsKey(big.letter)) {
+				return sol.get(small.letter) <= sol.get(big.letter);
+			}
+			return true;
+		}
 	}
 
 	public static class BetweenRule implements Rule {
@@ -237,7 +247,15 @@ public class ProjectEuler424 {
 
 		@Override public List<Tuple<String, Integer>> solve(Map<String, Integer> sol) { return upper == lower ? asList(new Tuple<>(digit.letter, upper)) : emptyList(); }
 		@Override public boolean isStillNeeded(Map<String, Integer> sol) { return !sol.containsKey(digit.letter); }
-		@Override public boolean check(Map<String, Integer> sol) { Integer value = sol.get(digit.letter); return lower <= value && value <= upper; }
+
+		@Override
+		public boolean check(Map<String, Integer> sol) {
+			if (sol.containsKey(digit.letter)) {
+				Integer value = sol.get(digit.letter);
+				return lower <= value && value <= upper;
+			}
+			return true;
+		}
 	}
 
 	//------------------------ Main ------------------------------------------------------------------------------------
@@ -260,13 +278,11 @@ public class ProjectEuler424 {
 //	"7,X,(vBB),(vBD),X,X,X,X,(hBB),C,E,(vEE),(vEC),X,X,(hBC),O,O,O,O,X,X,X,(hEF),H,O,A,(vJ),X,X,X,(hBD),O,O,O,(vI),X,X,(hBE),F,O,O,O,X,X,X,X,(hG),O,O",
 //	"7,X,X,(vGG),(vGD),X,(vI),(vGI),X,(hGB),O,O,(hGH,vIC),O,O,X,(hGA),O,O,O,J,O,X,X,(hGI),O,O,X,X,X,(vGD),(hE,vE),O,O,(vGF),X,(hIH),O,O,O,O,O,X,(hE),A,O,(hGF),O,O,X",
 		};
-		
 		return stream(kakuros).map(kakuro -> solveKakuro(kakuro)).mapToLong(value -> value).sum();
 	}
 	
-	private static long solveKakuro(String kakuro) {
+	public static long solveKakuro(String kakuro) {
 		Cell[][] matrix = parseKakuro(kakuro);
-//		printMatrix(matrix);
 		List<Rule> allRules = buildRules(matrix);
 		
 		Map<String, Integer> emptySolution = new HashMap<>();
@@ -280,7 +296,7 @@ public class ProjectEuler424 {
 		List<Rule> rules = allRules.stream()
 			.filter(rule -> rule.isStillNeeded(seedSolution))
 			.collect(Collectors.toList());
-		
+
 		List<Integer> freeNumbers = rangeClosed(0, 9)
 			.mapToObj(i -> i)
 			.filter(i -> !seedSolution.values().contains(i))
@@ -296,7 +312,6 @@ public class ProjectEuler424 {
 			.filter(Optional::isPresent)
 			.map(opt -> opt.get())
 			.findFirst().get();
-			
 		return stream(A_TO_J)
 			.map(i -> new Long(firstSolution.get(i)))
 			.reduce(0L, (acc, v) -> acc * 10 + v);
@@ -313,7 +328,7 @@ public class ProjectEuler424 {
 			 }
 			 
 			boolean allMatch = rules.stream().allMatch(rule -> rule.check(solCopy));
-			 if (!allMatch) { 
+			 if (!allMatch) {
 				 return Optional.empty();
 			 }
 			 
@@ -334,7 +349,7 @@ public class ProjectEuler424 {
 						 .stream()
 						 .map(listTuples -> listTuples.get(0))
 						 .collect(toMap(t -> t.getA(), t -> t.getB())));
-				 final Map<String, Integer> solCopy2 = sol; 
+				 final Map<String, Integer> solCopy2 = sol;
 				 rules = rules.stream().filter(rule -> rule.isStillNeeded(solCopy2)).collect(toList());
 			 } else { //backtracking
 //				 printSolution(depth, solCopy, rules);
@@ -353,7 +368,7 @@ public class ProjectEuler424 {
 						 Map<String, Integer> solR = new HashMap<>(sol);
 						 solR.put(candLetter, cand);
 						 
-						 Optional<Map<String, Integer>> solRes = checkSolution(depth + 1, solR, aRules);
+						 Optional<Map<String, Integer>> solRes = checkSolution(depth + 1, solR, rules);
 						 if (solRes.isPresent()) {
 							 return solRes;
 						 }
@@ -369,7 +384,8 @@ public class ProjectEuler424 {
 		System.out.println(depth + " " + sol);
 		rules.forEach(rule -> {
 			System.out.println("\t==" + rule);
-			System.out.println("\t->" + rule.toString(sol) + "\t" + rule.check(sol));
+			System.out.println("\t->" + rule.toString(sol) // + "\t" + rule.check(sol)
+			);
 		});
 	}
 
@@ -403,7 +419,11 @@ public class ProjectEuler424 {
 				Tuple<Cell, Boolean> tuple = newCell(token, digits, lastLetter);
 				row[colIdx] = tuple.getA();
 				if (tuple.getB()) {
-					lastLetter = Character.toString(++lastChar);
+					lastChar++;
+					if (lastChar == 'Z' + 1) {
+						lastChar = 'a';
+					}
+					lastLetter = Character.toString(lastChar);
 				}
 			}
 		}
