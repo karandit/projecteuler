@@ -29,6 +29,8 @@ import net.projecteuler.util.Tuple;
 public class ProjectEuler424 {
 	
 	private static final String[] A_TO_J = new String[] {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+	private static final Map<Integer, List<List<Integer>>> cachePermutations = new HashMap<>();
+	
 	
 	//-------------------------------- Problem Space -------------------------------------------------------------------
 	public static class Digit {
@@ -314,8 +316,9 @@ public class ProjectEuler424 {
 		List<String> letters = stream(A_TO_J)
 			.filter(letter -> !seedSolution.containsKey(letter))
 			.collect(toList());
-		
-		Map<String, Integer> firstSolution = permutations(freeNumbers).stream()
+
+		Map<String, Integer> firstSolution = getPermutations(freeNumbers.size()).stream()
+			.map(perm -> perm.stream().map(i -> freeNumbers.get(i)).collect(toList()))
 			.map(numbers -> newSolution(seedSolution, letters, numbers))
 			.map(sol -> checkSolution(digitsCnt, 0, sol,  rules))
 			.filter(Optional::isPresent)
@@ -324,6 +327,17 @@ public class ProjectEuler424 {
 		return stream(A_TO_J)
 			.map(i -> new Long(firstSolution.get(i)))
 			.reduce(0L, (acc, v) -> acc * 10 + v);
+	}
+
+	private static List<List<Integer>> getPermutations(int size) {
+		List<List<Integer>> permutations = null;
+		if (cachePermutations.containsKey(size)) {
+			permutations = cachePermutations.get(size); 
+		} else {
+			permutations = permutations(size);
+			cachePermutations.put(size, permutations); 
+		}
+		return permutations;
 	}
 
 	private static Optional<Map<String, Integer>> checkSolution(int digitsCnt, final int depth, final Map<String, Integer> aSol, final List<Rule> aRules) {
