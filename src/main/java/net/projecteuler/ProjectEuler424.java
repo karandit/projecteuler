@@ -144,7 +144,7 @@ public class ProjectEuler424 {
 		
 		boolean check(Map<String, Integer> solution);
 		List<Tuple<String, Integer>> solve(Map<String, Integer> solution);
-//		boolean isStillNeeded(Map<String, Integer> solution);
+		boolean isStillNeeded(Map<String, Integer> solution);
 		Optional<Tuple<String, List<Integer>>> getCandidates(Map<String, Integer> solution);
 	}
 	
@@ -169,10 +169,10 @@ public class ProjectEuler424 {
 			return emptyList();
 		}
 
-//		@Override
-//		public boolean isStillNeeded(Map<String, Integer> sol) {
-//			return digits.stream().anyMatch(d -> !sol.containsKey(d.letter));
-//		}
+		@Override
+		public boolean isStillNeeded(Map<String, Integer> sol) {
+			return digits.stream().anyMatch(d -> !sol.containsKey(d.letter));
+		}
 
 		@Override
 		public boolean check(Map<String, Integer> sol) {
@@ -224,7 +224,7 @@ public class ProjectEuler424 {
 		@Override public Optional<Tuple<String, List<Integer>>> getCandidates(Map<String, Integer> solution) { return empty(); }
 
 		@Override public List<Tuple<String, Integer>> solve(Map<String, Integer> sol) { return emptyList(); }
-//		@Override public boolean isStillNeeded(Map<String, Integer> sol) { return !sol.containsKey(small.letter) || !sol.containsKey(big.letter); }
+		@Override public boolean isStillNeeded(Map<String, Integer> sol) { return !sol.containsKey(small.letter) || !sol.containsKey(big.letter); }
 
 		@Override
 		public boolean check(Map<String, Integer> sol) {
@@ -254,7 +254,7 @@ public class ProjectEuler424 {
 			}
 			return emptyList();
 		}
-		//		@Override public boolean isStillNeeded(Map<String, Integer> sol) { return !sol.containsKey(digit.letter); }
+		@Override public boolean isStillNeeded(Map<String, Integer> sol) { return !sol.containsKey(digit.letter); }
 
 		@Override
 		public boolean check(Map<String, Integer> sol) {
@@ -303,10 +303,10 @@ public class ProjectEuler424 {
 			.distinct()
 			.collect(toMap(tuple -> tuple.getA(), tuple -> tuple.getB()));
 
-		List<Rule> rules = allRules;
-//				.stream()
-//			.filter(rule -> rule.isStillNeeded(seedSolution))
-//			.collect(Collectors.toList());
+		List<Rule> rules = allRules
+				.stream()
+			.filter(rule -> rule.isStillNeeded(seedSolution))
+			.collect(Collectors.toList());
 
 		List<Integer> freeNumbers = rangeClosed(0, 9)
 			.mapToObj(i -> i)
@@ -342,22 +342,20 @@ public class ProjectEuler424 {
 
 	private static Optional<Map<String, Integer>> checkSolution(int digitsCnt, final int depth, final Map<String, Integer> aSol, final List<Rule> aRules) {
 		 Map<String, Integer> sol = aSol;
-//		 List<Rule> rules = aRules;
+		 List<Rule> rules = aRules;
 
 		while (true) {
 			 final Map<String, Integer> solCopy = sol;
-//			 if (rules.isEmpty()) {
-//				 return of(sol);
-//			 }
-			boolean allMatch = aRules.stream().allMatch(rule -> rule.check(solCopy));
+			boolean allMatch = rules.stream().allMatch(rule -> rule.check(solCopy));
 			 if (!allMatch) {
 				 return Optional.empty();
 			 }
 			 if (sol.size() == digitsCnt) {
 				 return of(sol); 
 			 }
+			 rules = rules.stream().filter(rule -> rule.isStillNeeded(solCopy)).collect(toList());
 			 
-			 Map<String, List<Tuple<String, Integer>>> newSolGroupedByLetters = aRules.stream()
+			 Map<String, List<Tuple<String, Integer>>> newSolGroupedByLetters = rules.stream()
 					.map(rule -> rule.solve(solCopy))
 					.filter(list -> !list.isEmpty())
 					.flatMap(list -> list.stream())
@@ -374,11 +372,9 @@ public class ProjectEuler424 {
 						 .stream()
 						 .map(listTuples -> listTuples.get(0))
 						 .collect(toMap(t -> t.getA(), t -> t.getB())));
-//				 final Map<String, Integer> solCopy2 = sol;
-//				 rules = rules.stream().filter(rule -> rule.isStillNeeded(solCopy2)).collect(toList());
 			 } else { //backtracking
 //				 printSolution(depth, solCopy, rules);
-				 Optional<Tuple<String, List<Integer>>> min = aRules.stream()
+				 Optional<Tuple<String, List<Integer>>> min = rules.stream()
 				 .map(rule -> rule.getCandidates(solCopy))
 				 .filter(cand -> cand.isPresent())
 				 .map(cand -> cand.get())
@@ -392,7 +388,7 @@ public class ProjectEuler424 {
 //						 System.out.println(depth + " " + min + " " + candLetter + " " + cand);
 						 Map<String, Integer> solR = new HashMap<>(sol);
 						 solR.put(candLetter, cand);
-						 Optional<Map<String, Integer>> solRes = checkSolution(digitsCnt, depth + 1, solR, aRules);
+						 Optional<Map<String, Integer>> solRes = checkSolution(digitsCnt, depth + 1, solR, rules);
 						 if (solRes.isPresent()) {
 							 return solRes;
 						 }
