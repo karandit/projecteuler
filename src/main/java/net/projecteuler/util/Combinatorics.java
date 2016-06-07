@@ -4,15 +4,26 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.IntStream.range;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Combinatorics {
+
+	private static final Map<Integer, List<List<Integer>>> cachePermutations = new HashMap<>();
 	
 	public static List<List<Integer>> permutations(int n) {
-		List<Integer> numbers = range(0, n).boxed().collect(Collectors.toList());
-		return permutations(numbers);
+		List<List<Integer>> permutations = null;
+		if (cachePermutations.containsKey(n)) {
+			permutations = cachePermutations.get(n); 
+		} else {
+			List<Integer> numbers = range(0, n).boxed().collect(Collectors.toList());
+			permutations = permutations(numbers);
+			cachePermutations.put(n, permutations); 
+		}
+		return permutations;
 	}
 
 	public static List<List<Integer>> permutations(List<Integer> set) {
