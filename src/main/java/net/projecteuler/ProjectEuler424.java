@@ -142,7 +142,7 @@ public class ProjectEuler424 {
 		
 		boolean check(Map<String, Integer> solution);
 		List<Tuple<String, Integer>> solve(Map<String, Integer> solution);
-		boolean isStillNeeded(Map<String, Integer> solution);
+//		boolean isStillNeeded(Map<String, Integer> solution);
 		Optional<Tuple<String, List<Integer>>> getCandidates(Map<String, Integer> solution);
 	}
 	
@@ -167,10 +167,10 @@ public class ProjectEuler424 {
 			return emptyList();
 		}
 
-		@Override
-		public boolean isStillNeeded(Map<String, Integer> sol) {
-			return digits.stream().anyMatch(d -> !sol.containsKey(d.letter));
-		}
+//		@Override
+//		public boolean isStillNeeded(Map<String, Integer> sol) {
+//			return digits.stream().anyMatch(d -> !sol.containsKey(d.letter));
+//		}
 
 		@Override
 		public boolean check(Map<String, Integer> sol) {
@@ -180,7 +180,7 @@ public class ProjectEuler424 {
 			if (!allUnique) {
 				return false;
 			}
-			boolean allAreUnits = replDigits.stream().allMatch(d -> d <= 9);
+			boolean allAreUnits = replDigits.stream().allMatch(d -> d > 0 && d <= 9);
 			if (!allAreUnits) {
 				return false;
 			}
@@ -222,7 +222,7 @@ public class ProjectEuler424 {
 		@Override public Optional<Tuple<String, List<Integer>>> getCandidates(Map<String, Integer> solution) { return empty(); }
 
 		@Override public List<Tuple<String, Integer>> solve(Map<String, Integer> sol) { return emptyList(); }
-		@Override public boolean isStillNeeded(Map<String, Integer> sol) { return !sol.containsKey(small.letter) || !sol.containsKey(big.letter); }
+//		@Override public boolean isStillNeeded(Map<String, Integer> sol) { return !sol.containsKey(small.letter) || !sol.containsKey(big.letter); }
 
 		@Override
 		public boolean check(Map<String, Integer> sol) {
@@ -245,8 +245,14 @@ public class ProjectEuler424 {
 		@Override public String toString(Map<String, Integer> sol) { return "Rule Between: " + lower + " <= " + digit.toString(sol) + " <= " + upper; }
 		@Override public Optional<Tuple<String, List<Integer>>> getCandidates(Map<String, Integer> solution) { return empty(); }
 
-		@Override public List<Tuple<String, Integer>> solve(Map<String, Integer> sol) { return upper == lower ? asList(new Tuple<>(digit.letter, upper)) : emptyList(); }
-		@Override public boolean isStillNeeded(Map<String, Integer> sol) { return !sol.containsKey(digit.letter); }
+		@Override
+		public List<Tuple<String, Integer>> solve(Map<String, Integer> sol) {
+			if (!sol.containsKey(digit.letter)) {
+				return upper == lower ? asList(new Tuple<>(digit.letter, upper)) : emptyList();
+			}
+			return emptyList();
+		}
+		//		@Override public boolean isStillNeeded(Map<String, Integer> sol) { return !sol.containsKey(digit.letter); }
 
 		@Override
 		public boolean check(Map<String, Integer> sol) {
@@ -267,22 +273,24 @@ public class ProjectEuler424 {
 
 	private static long solve_424() {
 		String[] kakuros = new String[] {
-	"6,X,X,(vCC),(vI),X,X,X,(hH),B,O,(vCA),(vJE),X,(hFE,vD),O,O,O,O,(hA),O,I,(hJC,vB),O,O,(hJC),H,O,O,O,X,X,X,(hJE),O,O,X",
-//	"7,X,X,X,X,(vJJ),(vCD),X,X,X,X,(hCG),O,O,(vCE),X,X,X,(hCI,vJB),C,O,O,X,(vB),(hJF,vJF),O,F,O,O,(hJA),F,G,O,O,X,X,(hCA),O,A,O,X,X,X,X,(hCF),O,O,X,X,X",
-//	"7,X,X,X,(vE),(vCB),X,X,X,X,(hJ),O,O,(vCA),X,X,(vCH),(hCG,vCJ),O,O,O,(vJ),(hCE),O,O,O,(hJ,vGG),O,O,(hD),I,O,(hCD,vCB),H,O,O,X,(hCE),O,O,E,X,X,X,X,(hCE),O,O,X,X",
-//	"6,X,X,X,(vEA),(vJF),X,X,X,(hI),O,O,(vJA),X,(vA),(hEI,vEB),O,O,O,(hIG),C,O,J,O,D,(hJD),O,O,O,X,X,X,(hJD),O,O,X,X",
-//	"7,X,(vH),(vG),X,X,(vI),(vDH),(hG),B,O,(vDI),(hDB,vDE),O,O,(hBC),I,O,F,O,O,J,X,X,(hG),O,O,X,X,X,(vDG),(hH,vDD),O,O,(vDJ),(vC),(hBI),O,O,O,O,O,O,(hDJ),O,O,X,(hA),O,O",
-//	"6,X,(vID),(vIJ),X,X,X,(hH),F,I,(vF),(vIA),X,(hIA),G,B,O,C,X,X,(hID),O,O,O,(vIF),X,(hIA),E,O,I,O,X,X,X,(hII),O,G",
-//	"6,X,X,(vAF),(vAI),X,X,X,(hJ,vAC),O,B,(vGJ),X,(hGH),J,O,O,O,(vAF),(hAG),O,O,(hH,vF),A,D,X,(hGF),O,E,O,O,X,X,(hD),O,O,X",
-//	"7,X,X,X,X,(vCE),(vGB),X,X,(vJG),(vCI),(hCD,vCJ),O,O,X,(hCI),O,O,O,O,B,(vJB),(hCF),O,O,O,(hCA,vH),O,O,(hCJ),O,O,(hJB,vCJ),O,O,O,X,(hJD),O,O,O,O,O,X,(hF),I,O,X,X,X",
-//	"7,X,(vBB),(vBD),X,X,X,X,(hBB),C,E,(vEE),(vEC),X,X,(hBC),O,O,O,O,X,X,X,(hEF),H,O,A,(vJ),X,X,X,(hBD),O,O,O,(vI),X,X,(hBE),F,O,O,O,X,X,X,X,(hG),O,O",
-//	"7,X,X,(vGG),(vGD),X,(vI),(vGI),X,(hGB),O,O,(hGH,vIC),O,O,X,(hGA),O,O,O,J,O,X,X,(hGI),O,O,X,X,X,(vGD),(hE,vE),O,O,(vGF),X,(hIH),O,O,O,O,O,X,(hE),A,O,(hGF),O,O,X",
+	"6,X,X,(vCC),(vI),X,X,X,(hH),B,O,(vCA),(vJE),X,(hFE,vD),O,O,O,O,(hA),O,I,(hJC,vB),O,O,(hJC),H,O,O,O,X,X,X,(hJE),O,O,X", 
+//	"7,X,X,X,X,(vJJ),(vCD),X,X,X,X,(hCG),O,O,(vCE),X,X,X,(hCI,vJB),C,O,O,X,(vB),(hJF,vJF),O,F,O,O,(hJA),F,G,O,O,X,X,(hCA),O,A,O,X,X,X,X,(hCF),O,O,X,X,X", 
+//	"7,X,X,X,(vE),(vCB),X,X,X,X,(hJ),O,O,(vCA),X,X,(vCH),(hCG,vCJ),O,O,O,(vJ),(hCE),O,O,O,(hJ,vGG),O,O,(hD),I,O,(hCD,vCB),H,O,O,X,(hCE),O,O,E,X,X,X,X,(hCE),O,O,X,X", 
+//	"6,X,X,X,(vEA),(vJF),X,X,X,(hI),O,O,(vJA),X,(vA),(hEI,vEB),O,O,O,(hIG),C,O,J,O,D,(hJD),O,O,O,X,X,X,(hJD),O,O,X,X", 
+//	"7,X,(vH),(vG),X,X,(vI),(vDH),(hG),B,O,(vDI),(hDB,vDE),O,O,(hBC),I,O,F,O,O,J,X,X,(hG),O,O,X,X,X,(vDG),(hH,vDD),O,O,(vDJ),(vC),(hBI),O,O,O,O,O,O,(hDJ),O,O,X,(hA),O,O", 
+//	"6,X,(vID),(vIJ),X,X,X,(hH),F,I,(vF),(vIA),X,(hIA),G,B,O,C,X,X,(hID),O,O,O,(vIF),X,(hIA),E,O,I,O,X,X,X,(hII),O,G", 
+//	"6,X,X,(vAF),(vAI),X,X,X,(hJ,vAC),O,B,(vGJ),X,(hGH),J,O,O,O,(vAF),(hAG),O,O,(hH,vF),A,D,X,(hGF),O,E,O,O,X,X,(hD),O,O,X", 
+//	"7,X,X,X,X,(vCE),(vGB),X,X,(vJG),(vCI),(hCD,vCJ),O,O,X,(hCI),O,O,O,O,B,(vJB),(hCF),O,O,O,(hCA,vH),O,O,(hCJ),O,O,(hJB,vCJ),O,O,O,X,(hJD),O,O,O,O,O,X,(hF),I,O,X,X,X", 
+//	"7,X,(vBB),(vBD),X,X,X,X,(hBB),C,E,(vEE),(vEC),X,X,(hBC),O,O,O,O,X,X,X,(hEF),H,O,A,(vJ),X,X,X,(hBD),O,O,O,(vI),X,X,(hBE),F,O,O,O,X,X,X,X,(hG),O,O", 
+//	"7,X,X,(vGG),(vGD),X,(vI),(vGI),X,(hGB),O,O,(hGH,vIC),O,O,X,(hGA),O,O,O,J,O,X,X,(hGI),O,O,X,X,X,(vGD),(hE,vE),O,O,(vGF),X,(hIH),O,O,O,O,O,X,(hE),A,O,(hGF),O,O,X", 
 		};
 		return stream(kakuros).map(kakuro -> solveKakuro(kakuro)).mapToLong(value -> value).sum();
 	}
 	
 	public static long solveKakuro(String kakuro) {
-		Cell[][] matrix = parseKakuro(kakuro);
+		Tuple<Integer, Cell[][]> parseKakuro = parseKakuro(kakuro);
+		final Cell[][] matrix = parseKakuro.getB();
+		Integer digitsCnt = parseKakuro.getA();
 		List<Rule> allRules = buildRules(matrix);
 		
 		Map<String, Integer> emptySolution = new HashMap<>();
@@ -293,9 +301,10 @@ public class ProjectEuler424 {
 			.distinct()
 			.collect(toMap(tuple -> tuple.getA(), tuple -> tuple.getB()));
 
-		List<Rule> rules = allRules.stream()
-			.filter(rule -> rule.isStillNeeded(seedSolution))
-			.collect(Collectors.toList());
+		List<Rule> rules = allRules;
+//				.stream()
+//			.filter(rule -> rule.isStillNeeded(seedSolution))
+//			.collect(Collectors.toList());
 
 		List<Integer> freeNumbers = rangeClosed(0, 9)
 			.mapToObj(i -> i)
@@ -308,7 +317,7 @@ public class ProjectEuler424 {
 		
 		Map<String, Integer> firstSolution = permutations(freeNumbers).stream()
 			.map(numbers -> newSolution(seedSolution, letters, numbers))
-			.map(sol -> checkSolution(0, sol,  rules))
+			.map(sol -> checkSolution(digitsCnt, 0, sol,  rules))
 			.filter(Optional::isPresent)
 			.map(opt -> opt.get())
 			.findFirst().get();
@@ -317,22 +326,24 @@ public class ProjectEuler424 {
 			.reduce(0L, (acc, v) -> acc * 10 + v);
 	}
 
-	private static Optional<Map<String, Integer>> checkSolution(final int depth, final Map<String, Integer> aSol, final List<Rule> aRules) {
+	private static Optional<Map<String, Integer>> checkSolution(int digitsCnt, final int depth, final Map<String, Integer> aSol, final List<Rule> aRules) {
 		 Map<String, Integer> sol = aSol;
-		 List<Rule> rules = aRules;
+//		 List<Rule> rules = aRules;
 
 		while (true) {
 			 final Map<String, Integer> solCopy = sol;
-			 if (rules.isEmpty()) {
-				 return of(sol);
-			 }
-			 
-			boolean allMatch = rules.stream().allMatch(rule -> rule.check(solCopy));
+//			 if (rules.isEmpty()) {
+//				 return of(sol);
+//			 }
+			boolean allMatch = aRules.stream().allMatch(rule -> rule.check(solCopy));
 			 if (!allMatch) {
 				 return Optional.empty();
 			 }
+			 if (sol.size() == digitsCnt) {
+				 return of(sol); 
+			 }
 			 
-			 Map<String, List<Tuple<String, Integer>>> newSolGroupedByLetters = rules.stream()
+			 Map<String, List<Tuple<String, Integer>>> newSolGroupedByLetters = aRules.stream()
 					.map(rule -> rule.solve(solCopy))
 					.filter(list -> !list.isEmpty())
 					.flatMap(list -> list.stream())
@@ -349,11 +360,11 @@ public class ProjectEuler424 {
 						 .stream()
 						 .map(listTuples -> listTuples.get(0))
 						 .collect(toMap(t -> t.getA(), t -> t.getB())));
-				 final Map<String, Integer> solCopy2 = sol;
-				 rules = rules.stream().filter(rule -> rule.isStillNeeded(solCopy2)).collect(toList());
+//				 final Map<String, Integer> solCopy2 = sol;
+//				 rules = rules.stream().filter(rule -> rule.isStillNeeded(solCopy2)).collect(toList());
 			 } else { //backtracking
 //				 printSolution(depth, solCopy, rules);
-				 Optional<Tuple<String, List<Integer>>> min = rules.stream()
+				 Optional<Tuple<String, List<Integer>>> min = aRules.stream()
 				 .map(rule -> rule.getCandidates(solCopy))
 				 .filter(cand -> cand.isPresent())
 				 .map(cand -> cand.get())
@@ -367,14 +378,12 @@ public class ProjectEuler424 {
 //						 System.out.println(depth + " " + min + " " + candLetter + " " + cand);
 						 Map<String, Integer> solR = new HashMap<>(sol);
 						 solR.put(candLetter, cand);
-						 
-						 Optional<Map<String, Integer>> solRes = checkSolution(depth + 1, solR, rules);
+						 Optional<Map<String, Integer>> solRes = checkSolution(digitsCnt, depth + 1, solR, aRules);
 						 if (solRes.isPresent()) {
 							 return solRes;
 						 }
 					 }
 				 }
-				 
 				 return empty();
 			 }
 		}
@@ -384,7 +393,7 @@ public class ProjectEuler424 {
 		System.out.println(depth + " " + sol);
 		rules.forEach(rule -> {
 			System.out.println("\t==" + rule);
-			System.out.println("\t->" + rule.toString(sol) // + "\t" + rule.check(sol)
+			System.out.println("\t->" + rule.toString(sol)  + "\t" + rule.check(sol)
 			);
 		});
 	}
@@ -399,7 +408,7 @@ public class ProjectEuler424 {
 		return solution;
 	}
 
-	private static Cell[][] parseKakuro(String input) {
+	private static Tuple<Integer, Cell[][]> parseKakuro(String input) {
 		String[] tokens = input.split(",");
 		int tokenIdx = 0;
 		int size = Integer.parseInt(tokens[tokenIdx++]);
@@ -408,6 +417,7 @@ public class ProjectEuler424 {
 		Map<String, Digit> digits = stream(A_TO_J).collect(toMap(x -> x, x -> new Digit(x)));
 		char lastChar = 'K';
 		String lastLetter = Character.toString(lastChar);
+		int digitsCnt = 10;
 		for (int rowIdx = 0; rowIdx < matrix.length; rowIdx++) {
 			Cell[] row = matrix[rowIdx];
 			for (int colIdx = 0; colIdx < matrix.length; colIdx++) {
@@ -420,6 +430,7 @@ public class ProjectEuler424 {
 				row[colIdx] = tuple.getA();
 				if (tuple.getB()) {
 					lastChar++;
+					digitsCnt++;
 					if (lastChar == 'Z' + 1) {
 						lastChar = 'a';
 					}
@@ -427,7 +438,7 @@ public class ProjectEuler424 {
 				}
 			}
 		}
-		return matrix;
+		return new Tuple<Integer, Cell[][]>(digitsCnt, matrix);
 	}
 
 	private static Tuple<Cell, Boolean> newCell(String token, Map<String, Digit> digits, String lastLetter) {
