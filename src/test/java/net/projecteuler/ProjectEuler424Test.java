@@ -3,8 +3,9 @@ package net.projecteuler;
 import static net.projecteuler.ProjectEuler424.solveKakuro;
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
-
+@Ignore
 public class ProjectEuler424Test {
 
     @Test

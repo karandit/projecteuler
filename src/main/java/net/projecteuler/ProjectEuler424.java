@@ -12,6 +12,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.IntStream.rangeClosed;
 import static net.projecteuler.util.Combinatorics.permutations;
+import static net.projecteuler.util.FileUtils.readLinesFromFile;
 import static net.projecteuler.util.Matrix.newMatrix;
 import static net.projecteuler.util.Matrix.rotateMatrix;
 
@@ -271,20 +272,9 @@ public class ProjectEuler424 {
 		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
 	}
 
-	private static long solve_424() {
-		String[] kakuros = new String[] {
-	"6,X,X,(vCC),(vI),X,X,X,(hH),B,O,(vCA),(vJE),X,(hFE,vD),O,O,O,O,(hA),O,I,(hJC,vB),O,O,(hJC),H,O,O,O,X,X,X,(hJE),O,O,X", 
-//	"7,X,X,X,X,(vJJ),(vCD),X,X,X,X,(hCG),O,O,(vCE),X,X,X,(hCI,vJB),C,O,O,X,(vB),(hJF,vJF),O,F,O,O,(hJA),F,G,O,O,X,X,(hCA),O,A,O,X,X,X,X,(hCF),O,O,X,X,X", 
-//	"7,X,X,X,(vE),(vCB),X,X,X,X,(hJ),O,O,(vCA),X,X,(vCH),(hCG,vCJ),O,O,O,(vJ),(hCE),O,O,O,(hJ,vGG),O,O,(hD),I,O,(hCD,vCB),H,O,O,X,(hCE),O,O,E,X,X,X,X,(hCE),O,O,X,X", 
-//	"6,X,X,X,(vEA),(vJF),X,X,X,(hI),O,O,(vJA),X,(vA),(hEI,vEB),O,O,O,(hIG),C,O,J,O,D,(hJD),O,O,O,X,X,X,(hJD),O,O,X,X", 
-//	"7,X,(vH),(vG),X,X,(vI),(vDH),(hG),B,O,(vDI),(hDB,vDE),O,O,(hBC),I,O,F,O,O,J,X,X,(hG),O,O,X,X,X,(vDG),(hH,vDD),O,O,(vDJ),(vC),(hBI),O,O,O,O,O,O,(hDJ),O,O,X,(hA),O,O", 
-//	"6,X,(vID),(vIJ),X,X,X,(hH),F,I,(vF),(vIA),X,(hIA),G,B,O,C,X,X,(hID),O,O,O,(vIF),X,(hIA),E,O,I,O,X,X,X,(hII),O,G", 
-//	"6,X,X,(vAF),(vAI),X,X,X,(hJ,vAC),O,B,(vGJ),X,(hGH),J,O,O,O,(vAF),(hAG),O,O,(hH,vF),A,D,X,(hGF),O,E,O,O,X,X,(hD),O,O,X", 
-//	"7,X,X,X,X,(vCE),(vGB),X,X,(vJG),(vCI),(hCD,vCJ),O,O,X,(hCI),O,O,O,O,B,(vJB),(hCF),O,O,O,(hCA,vH),O,O,(hCJ),O,O,(hJB,vCJ),O,O,O,X,(hJD),O,O,O,O,O,X,(hF),I,O,X,X,X", 
-//	"7,X,(vBB),(vBD),X,X,X,X,(hBB),C,E,(vEE),(vEC),X,X,(hBC),O,O,O,O,X,X,X,(hEF),H,O,A,(vJ),X,X,X,(hBD),O,O,O,(vI),X,X,(hBE),F,O,O,O,X,X,X,X,(hG),O,O", 
-//	"7,X,X,(vGG),(vGD),X,(vI),(vGI),X,(hGB),O,O,(hGH,vIC),O,O,X,(hGA),O,O,O,J,O,X,X,(hGI),O,O,X,X,X,(vGD),(hE,vE),O,O,(vGF),X,(hIH),O,O,O,O,O,X,(hE),A,O,(hGF),O,O,X", 
-		};
-		return stream(kakuros).map(kakuro -> solveKakuro(kakuro)).mapToLong(value -> value).sum();
+	public static long solve_424() {
+		return readLinesFromFile("ProjectEuler_424.txt")
+				.stream().map(kakuro -> solveKakuro(kakuro)).mapToLong(value -> value).sum();
 	}
 	
 	public static long solveKakuro(String kakuro) {
@@ -367,12 +357,10 @@ public class ProjectEuler424 {
 				 .map(cand -> cand.get())
 				 .min((t1, t2) -> t1.getB().size() - t2.getB().size());
 				 
-//				 System.out.println(depth + " " + min);
 				 if (min.isPresent()) {
 					 String candLetter = min.get().getA();
 					 List<Integer> candidates = min.get().getB();
 					 for (Integer cand : candidates) {
-//						 System.out.println(depth + " " + min + " " + candLetter + " " + cand);
 						 Map<String, Integer> solR = new HashMap<>(sol);
 						 solR.put(candLetter, cand);
 						 Optional<Map<String, Integer>> solRes = checkSolution(digitsCnt, depth + 1, solR, rules);

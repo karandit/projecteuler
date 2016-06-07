@@ -33,6 +33,7 @@ import static net.projecteuler.ProjectEuler099.solve_099;
 import static net.projecteuler.ProjectEuler119.solve_119;
 import static net.projecteuler.ProjectEuler179.solve_179;
 import static net.projecteuler.ProjectEuler206.solve_206;
+import static net.projecteuler.ProjectEuler424.solve_424;
 import static org.junit.Assert.assertEquals;
 
 public class SolutionsTest {
@@ -74,5 +75,6 @@ public class SolutionsTest {
 	@Test public void shouldSolve_179() { assertEquals(986262, solve_179()); }
 	@Test public void shouldSolve_206() { assertEquals(1389019170, solve_206()); }
 	//TODO 419 is not solved yet
+	@Test public void shouldSolve_424() { assertEquals(1059760019628L, solve_424()); }
 
 }
