@@ -3,11 +3,8 @@ package net.projecteuler;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
+import static net.projecteuler.util.FileUtils.readLinesFromFile;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,7 +30,10 @@ public class ProjectEuler098 {
 	public static long solve_098() {
 		List<Tuple<String, String>> wordPairs = new LinkedList<>();
 		
-		readWordsFromFile("ProjectEuler_098.txt").stream()
+		readLinesFromFile("ProjectEuler_098.txt")
+		.stream()
+		.flatMap(line -> Arrays.stream(line.split(",")))
+		.map(word -> word.replace("\"", ""))
 		.collect(groupingBy((String word) -> {
 			char[] keyAsArray = word.toCharArray();
 			Arrays.sort(keyAsArray);
@@ -115,23 +115,6 @@ public class ProjectEuler098 {
 			sb.append(digits.indexOf(i));
 		}
 		return sb.toString();
-	}
-
-	private static List<String> readWordsFromFile(String fileName) {
-		try (InputStream is = ProjectEuler098.class.getResourceAsStream(fileName);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-				
-			List<String> words = new LinkedList<>();
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				for (String s : line.split(",")) {
-					words.add(s.replace("\"", ""));
-				}
-			}
-			return words;
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 }
