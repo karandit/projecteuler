@@ -75,5 +75,6 @@ public class SolutionsTest {
 	@Test public void shouldSolve_206() { assertEquals(1389019170, solve_206()); }
 	//TODO 419 is not solved yet
 	@Test public void shouldSolve_424() { assertEquals(1059760019628L, solve_424()); }
+	//TODO 551 is not solved yet, it is too slow
 
 }
