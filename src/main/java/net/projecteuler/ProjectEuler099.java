@@ -2,27 +2,24 @@ package net.projecteuler;
 
 import static java.lang.Double.parseDouble;
 import static java.lang.Math.log10;
+import static net.projecteuler.util.FileUtils.readLinesFromFile;
+import static net.projecteuler.util.StreamUtils.zip;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import net.projecteuler.util.Tuple;
 
 public class ProjectEuler099 {
 	
 	private static class BigN {
 		private final double base;
 		private final double exp;
-		private final int lineNr;
 		
-		public BigN(double base, double exp, int lineNr) {
+		public BigN(double base, double exp) {
 			this.base = base;
 			this.exp = exp;
-			this.lineNr = lineNr;
 		}
 		
 		@Override
@@ -53,10 +50,8 @@ public class ProjectEuler099 {
 			return true;
 		}
 
-		@Override
-		public String toString() {
-			return base + " ^ " + exp + " nr: " + lineNr;
-		}
+		@Override public String toString() { return base + " ^ " + exp; }
+	
 	}
 	
 	/**
@@ -86,21 +81,18 @@ public class ProjectEuler099 {
 	}
 
 	public static int solve_099() {
-		try (InputStream is = ProjectEuler099.class.getResourceAsStream("ProjectEuler_099.txt");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-			
-			int lineNr = 1;
-			String line = null;
-			List<BigN> values = new ArrayList<>();
-			while ((line = reader.readLine()) != null) {
+		Stream<BigN> bigNs = readLinesFromFile("ProjectEuler_099.txt")
+			.stream()
+			.map(line -> {
 				String[] split = line.split(",");
-				values.add(new BigN(parseDouble(split[0]), parseDouble(split[1]), lineNr++));
-			}
-			Collections.sort(values, BigNComparator.INSTANCE);
-			return values.get(0).lineNr;
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+				return new BigN(parseDouble(split[0]), parseDouble(split[1]));
+			});
+		Stream<Integer> ints = IntStream.iterate(1, i -> i + 1).boxed();
+		
+		return zip(bigNs, ints, (bigN, index) -> new Tuple<>(bigN, index))
+			.sorted((tuple1, tuple2) ->  BigNComparator.INSTANCE.compare(tuple1.getA(), tuple2.getA()))
+			.findFirst().get()
+			.getB();
 	}
 	
 }
