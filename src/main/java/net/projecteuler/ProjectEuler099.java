@@ -13,57 +13,16 @@ import net.projecteuler.util.Tuple;
 
 public class ProjectEuler099 {
 	
-	private static class BigN {
-		private final double base;
-		private final double exp;
-		
-		public BigN(double base, double exp) {
-			this.base = base;
-			this.exp = exp;
-		}
-		
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			long temp;
-			temp = Double.doubleToLongBits(base);
-			result = prime * result + (int) (temp ^ (temp >>> 32));
-			temp = Double.doubleToLongBits(exp);
-			result = prime * result + (int) (temp ^ (temp >>> 32));
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			BigN other = (BigN) obj;
-			if (Double.doubleToLongBits(base) != Double.doubleToLongBits(other.base))
-				return false;
-			if (Double.doubleToLongBits(exp) != Double.doubleToLongBits(other.exp))
-				return false;
-			return true;
-		}
-
-		@Override public String toString() { return base + " ^ " + exp; }
-	
-	}
-	
 	/**
 	 * Sorts in descending order to be easy to get the biggest as being the first.
 	 */
-	private static enum BigNComparator implements Comparator<BigN> {
+	private static enum BigNComparator implements Comparator<Tuple<Double, Double>> {
 
 		INSTANCE;
 	
 		@Override
-		public int compare(BigN o1, BigN o2) {
-			double e = (o1.exp / o2.exp) - (log10(o2.base) / log10(o1.base));
+		public int compare(Tuple<Double, Double> o1, Tuple<Double, Double> o2) {
+			double e = (o1.getB() / o2.getB()) - (log10(o2.getA()) / log10(o1.getA()));
 			if (e > 0.0) {
 				return -1;
 			} else if (e < 0.0) {
@@ -81,15 +40,15 @@ public class ProjectEuler099 {
 	}
 
 	public static int solve_099() {
-		Stream<BigN> bigNs = readLinesFromFile("ProjectEuler_099.txt")
+		Stream<Tuple<Double, Double>> bigNs = readLinesFromFile("ProjectEuler_099.txt")
 			.stream()
 			.map(line -> {
 				String[] split = line.split(",");
-				return new BigN(parseDouble(split[0]), parseDouble(split[1]));
+				return new Tuple<>(parseDouble(split[0]), parseDouble(split[1]));
 			});
 		Stream<Integer> ints = IntStream.iterate(1, i -> i + 1).boxed();
 		
-		return zip(bigNs, ints, (bigN, index) -> new Tuple<>(bigN, index))
+		return zip(bigNs, ints, (bigN, index) -> new Tuple<Tuple<Double, Double>, Integer>(bigN, index))
 			.sorted((tuple1, tuple2) ->  BigNComparator.INSTANCE.compare(tuple1.getA(), tuple2.getA()))
 			.findFirst().get()
 			.getB();
