@@ -4,11 +4,8 @@ import static java.util.Arrays.stream;
 import static java.util.Collections.reverseOrder;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
+import static net.projecteuler.util.FileUtils.readLinesFromFile;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -26,25 +23,17 @@ public class ProjectEuler054 {
 		System.out.println("Elapsed time: " + ((System.nanoTime() - start) / 1_000_000) + " ms");
 	}
 
-	public static int solve_054() {
-		try (InputStream is = ProjectEuler054.class.getResourceAsStream("ProjectEuler_054.txt");
-				BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-
-			String line = null;
-			int cnt = 0;
-			while ((line = reader.readLine()) != null) {
-				Hand h1 = new Hand(line.substring(0, 15));
-				Hand h2 = new Hand(line.substring(15));
-				int won = HandComparator.INSTANCE.compare(h1, h2);
-//				System.out.println(h1 + "\t" + h2 + "\t" + (won > 0 ? h1 : h2));
-				if (won > 0) {
-					cnt++;
-				}
-			}
-			return cnt;
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+	public static long solve_054() {
+		return readLinesFromFile("ProjectEuler_054.txt")
+				.stream()
+				.map(line -> {
+					Hand h1 = new Hand(line.substring(0, 15));
+					Hand h2 = new Hand(line.substring(15));
+					int won = HandComparator.INSTANCE.compare(h1, h2);
+					return won;
+				})
+				.filter(won -> won > 0)
+				.count();
 	}
 
 	private enum CardValue  {
