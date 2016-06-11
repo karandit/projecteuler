@@ -50,7 +50,6 @@ public class SolutionsTest {
 	@Test public void shouldSolve_051() { assertEquals(121313, solve_051()); }
 	@Test public void shouldSolve_053() { assertEquals(4075, solve_053()); }
 	@Test public void shouldSolve_054() { assertEquals(376, solve_054()); }
-	//TODO 54 is not solved yet
 	@Test public void shouldSolve_057() { assertEquals(153, solve_057()); }
 	@Test public void shouldSolve_059() { assertEquals(107359, solve_059()); }
 	@Test public void shouldSolve_060() { assertEquals(26033, solve_060()); }
