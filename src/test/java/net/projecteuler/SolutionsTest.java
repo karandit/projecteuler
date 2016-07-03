@@ -55,6 +55,7 @@ public class SolutionsTest {
 	@Test public void shouldSolve_060() { assertEquals(26033, solve_060()); }
 	@Test public void shouldSolve_062() { assertEquals(127035954683L, solve_062()); }
 	//TODO 63 is missing
+	@Test public void shouldSolve_064() { assertEquals(1322, ProjectEuler064.solve_064()); }
 	@Test public void shouldSolve_069() { assertEquals(510510, solve_069()); }
 	@Test public void shouldSolve_070() { assertEquals(8319823, solve_070()); }
 	@Test public void shouldSolve_071() { assertEquals(428570, solve_071()); }
