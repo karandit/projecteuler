@@ -11,6 +11,15 @@ public class Util {
 		return sum;
 	}
 	
+	public static long sumOfDigits(String n) {
+		char[] charArray = n.toString().toCharArray();
+		long sum = 0;
+		for (int i = 0; i < charArray.length; i++) {
+			sum += charArray[i] - '0';
+		}
+		return sum;
+	}
+	
 	public static int[] digits(long n) {
 		int[] digits = new int[countOfDigits(n)];
 		int i = digits.length - 1;

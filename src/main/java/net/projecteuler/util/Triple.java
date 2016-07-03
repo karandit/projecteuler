@@ -17,6 +17,11 @@ public class Triple<T1, T2 , T3> {
 	public T3 getC() { return mT3; }
 
 	@Override
+	public String toString() {
+		return "(" + mT1 + ", " + mT2 + ", " + mT3 +")";
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
