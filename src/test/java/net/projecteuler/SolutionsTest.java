@@ -25,6 +25,7 @@ import static net.projecteuler.ProjectEuler069.solve_069;
 import static net.projecteuler.ProjectEuler070.solve_070;
 import static net.projecteuler.ProjectEuler071.solve_071;
 import static net.projecteuler.ProjectEuler072.solve_072;
+import static net.projecteuler.ProjectEuler073.solve_073;
 import static net.projecteuler.ProjectEuler074.solve_074;
 import static net.projecteuler.ProjectEuler080.solve_080;
 import static net.projecteuler.ProjectEuler087.solve_087;
@@ -66,6 +67,7 @@ public class SolutionsTest {
 	@Test public void shouldSolve_070() { assertEquals(8319823, solve_070()); }
 	@Test public void shouldSolve_071() { assertEquals(428570, solve_071()); }
 	@Test public void shouldSolve_072() { assertEquals(303963552391L, solve_072()); }
+	@Test public void shouldSolve_073() { assertEquals(7295372, solve_073()); }
 	@Test public void shouldSolve_074() { assertEquals(402, solve_074()); }
 	//TODO 79 is missing, I solved it with paper and pencil
 	@Test public void shouldSolve_080() { assertEquals(40886, solve_080()); }
