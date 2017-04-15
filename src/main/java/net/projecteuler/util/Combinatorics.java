@@ -32,6 +32,13 @@ public class Combinatorics {
 		return allSolutions;
 	}
 	
+	/**
+	 * Take variations by k from n.
+	 *
+	 * @param n
+	 * @param k
+	 * @return the list of all solutions
+	 */
 	public static List<List<Integer>> variations(int n, int k) {
 		if (k > n) {
 			throw new IllegalArgumentException("In variations k = " + k + " must be smaller or equal than n = " + n);
@@ -40,6 +47,16 @@ public class Combinatorics {
 		List<Integer> set = range(0, n).boxed().collect(Collectors.toList());
 		List<List<Integer>> allSolutions = new LinkedList<>();
 		genVariations(allSolutions, set, emptyList(), k);
+		return allSolutions;
+	}
+
+	public static List<List<Integer>> combinations(int n, int k) {
+		if (k > n) {
+			throw new IllegalArgumentException("In combinations k = " + k + " must be smaller or equal than n = " + n);
+		}
+
+		List<List<Integer>> allSolutions = new LinkedList<>();
+		genCombinations(allSolutions, emptyList(), 0, n, k);
 		return allSolutions;
 	}
 
@@ -56,6 +73,22 @@ public class Combinatorics {
 			newSolution.add(integer);
 
 			genVariations(allSolutions, newSet, newSolution, k - 1);
+		}
+	}
+
+	private static void genCombinations(List<List<Integer>> allSolutions, List<Integer> solution, 
+			final int start, final int n, final int k) {
+
+		if (solution.size() == k) {
+			allSolutions.add(solution);
+			return;
+		}
+		int end = n - k + solution.size();
+		for (int i = start; i <= end; i++) {
+			List<Integer> newSolution = new ArrayList<>(solution);
+			newSolution.add(i);
+
+			genCombinations(allSolutions, newSolution, i + 1, n, k);
 		}
 	}
 
