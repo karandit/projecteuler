@@ -1,7 +1,13 @@
+# Gradle related stuff
 .gradle/
 build/
+out/
 
+# Eclipse related stuff
 .classpath
 .project
 .settings/
 /bin/
+
+# IntelliJ Idea related stuff
+.idea/
