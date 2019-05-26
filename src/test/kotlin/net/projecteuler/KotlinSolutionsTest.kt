@@ -13,5 +13,6 @@ class KotlinSolutionsTest {
     @Test fun test004() = assertEquals ("906609",  euler004())
     //    @Test fun test005() = assertEquals ("???",  euler005())
     @Test fun test006() = assertEquals ("25164150",  euler006())
+    @Test fun test009() = assertEquals ("31875000",  euler009())
 
 }
